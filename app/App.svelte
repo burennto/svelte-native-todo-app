@@ -25,7 +25,7 @@
     <tabContentItem>
       <listView items="{dones}" on:itemTap="{onDoneTap}">
         <Template let:item>
-          <label text="{item.name}" textWrap="true" />
+          <label text="{item.name}" class="todo-item-completed" textWrap="true" />
         </Template>
       </listView>
     </tabContentItem>
@@ -94,5 +94,10 @@
 <style>
   textField {
     font-size: 20;
+  }
+
+  .todo-item-completed {
+    color: #939393;
+    text-decoration: line-through;
   }
 </style>

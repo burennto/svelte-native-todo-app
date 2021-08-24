@@ -13,7 +13,7 @@
           produces the same result as tapping the button. -->
         <textField col="0" row="0" bind:text="{textFieldValue}" hint="Type new task..." editable="true"
           on:returnPress="{onButtonTap}" />
-        <button col="1" row="0" text="Add task" on:tap="{onButtonTap}" />
+        <button col="1" row="0" text="Add task" on:tap="{onButtonTap}" class="-primary" />
 
         <listView items="{todos}" on:itemTap="{onItemTap}" row="1" colSpan="2">
           <Template let:item>
@@ -90,3 +90,9 @@
     textFieldValue = ""; // Clears the text field so that users can start adding new tasks immediately.
   }
 </script>
+
+<style>
+  textField {
+    font-size: 20;
+  }
+</style>

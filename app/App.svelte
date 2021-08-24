@@ -23,7 +23,11 @@
       </gridLayout>
     </tabContentItem>
     <tabContentItem>
-      <label textWrap="true">This tab will list compelted tasks for tracking.</label>
+      <listView items="{dones}" on:itemTap="{onDoneTap}">
+        <Template let:item>
+          <label text="{item.name}" textWrap="true" />
+        </Template>
+      </listView>
     </tabContentItem>
   </tabs>
 </page>
@@ -52,6 +56,27 @@
         break;
       case "Delete forever":
         todos = removeFromList(todos, item); // Removes the tapped active task.
+        break;
+      case "Cancel" || undefined: // Dismiss the dialog
+        break;
+    }
+  }
+
+  async function onDoneTap(args) {
+    let result = await action("What do you want to do with this task?", "Cancel", [
+      "Mark To Do",
+      "Delete forever"
+    ]);
+
+    console.log(result); // Logs the selected option for debugging.
+    let item = dones[args.index];
+    switch (result) {
+      case "Mark To Do":
+        todos = addToList(todos, item); // Places the completed task at the top of the active tasks.
+        dones = removeFromList(dones, item);
+        break;
+      case "Delete forever":
+        dones = removeFromList(dones, item) // Removes the tapped completed task.
         break;
       case "Cancel" || undefined: // Dismiss the dialog
         break;

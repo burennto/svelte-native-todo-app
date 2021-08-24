@@ -32,10 +32,30 @@
   import { Template } from 'svelte-native/components';
 
   let todos = [];
+  let dones = [];
+  const removeFromList = (list, item) => list.filter(t => t !== item);
+  const addToList = (list, item) => [ item, ...list ];
   let textFieldValue = "";
 
-  function onItemTap(args) {
-    console.log(`Item ${todos[args.index].name} at index: ${args.index} was tapped`);
+  async function onItemTap(args) {
+    let result = await action("What do you want to do with this task?", "Cancel", [
+      "Mark completed",
+      "Delete forever"
+    ]);
+
+    console.log(result); // Logs the selected option for debugging.
+    let item = todos[args.index];
+    switch (result) {
+      case "Mark completed":
+        dones = addToList(dones, item) // Places the tapped active task at the top of the completed tasks.
+        todos = removeFromList(todos, item); // Removes the tapped active task.
+        break;
+      case "Delete forever":
+        todos = removeFromList(todos, item); // Removes the tapped active task.
+        break;
+      case "Cancel" || undefined: // Dismiss the dialog
+        break;
+    }
   }
 
   function onButtonTap() {
